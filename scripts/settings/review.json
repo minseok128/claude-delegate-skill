@@ -1,0 +1,23 @@
+{
+  "defaultMode": "plan",
+  "allow": [
+    "Read",
+    "Bash(git diff *)",
+    "Bash(git status *)",
+    "Bash(git show *)",
+    "Bash(rg *)",
+    "Bash(find *)",
+    "Bash(ls *)",
+    "Bash(cat *)",
+    "Bash(sed *)",
+    "Bash(nl *)"
+  ],
+  "deny": [
+    "Edit",
+    "Read(./.env)",
+    "Read(./.env.*)",
+    "Read(./secrets/**)",
+    "Bash(curl *)",
+    "Bash(wget *)"
+  ]
+}
