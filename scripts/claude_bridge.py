@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bounded Claude Code CLI wrapper for the claude-delegate skill."""
+"""Bounded Claude Code CLI wrapper for the claude-delegate-skill."""
 
 from __future__ import annotations
 
@@ -281,7 +281,7 @@ def run_command(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     """Create the CLI argument parser."""
-    parser = argparse.ArgumentParser(description="Bounded Claude Code CLI wrapper for the claude-delegate skill.")
+    parser = argparse.ArgumentParser(description="Bounded Claude Code CLI wrapper for the claude-delegate-skill.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     doctor = subparsers.add_parser("doctor", help="Verify the local Claude CLI is usable.")

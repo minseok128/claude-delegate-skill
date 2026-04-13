@@ -1,4 +1,4 @@
-# claude-delegate
+# claude-delegate-skill
 
 A bounded "specialist lane" skill that delegates a single task to the local Claude Code CLI and returns schema-validated JSON.
 
@@ -10,7 +10,7 @@ Use it when you want a second opinion, a red-team pass, or an alternative plan â
 
 - `claude` CLI installed on `PATH` and logged in (`claude auth status` â†’ `loggedIn: true`)
 - `python3` available (the bridge script is invoked via `python3`)
-- Drop this directory into your skills folder (e.g. `~/.codex/skills/claude-delegate` or `~/.claude/skills/claude-delegate`)
+- Drop this directory into your skills folder (e.g. `~/.codex/skills/claude-delegate-skill` or `~/.claude/skills/claude-delegate-skill`)
 - Run `./scripts/doctor.sh` once to verify CLI, auth, and a JSON smoke test
 
 ## Usage

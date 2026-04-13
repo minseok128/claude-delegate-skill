@@ -5,7 +5,7 @@ Write a temporary prompt file before invoking `claude_bridge.py run`.
 Use this layout:
 
 ```md
-# Claude Delegate Request
+# Claude Delegate Skill Request
 
 Mode: <review|adversarial-review|implementation-plan>
 Goal: <one sentence>

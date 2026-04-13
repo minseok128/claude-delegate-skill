@@ -1,9 +1,9 @@
 ---
-name: claude-delegate
+name: claude-delegate-skill
 description: Delegate a bounded task to the local Claude Code CLI when the user explicitly asks for Claude, wants a second opinion, requests adversarial review, or asks for an alternative implementation plan. Use for repo-local structured review via JSON output. Do not use for ordinary coding tasks, simple edits, or when Codex can complete the task directly.
 ---
 
-# Claude Delegate
+# Claude Delegate Skill
 
 Use this skill only as a bounded specialist lane. Keep Codex as the primary executor and verifier.
 
