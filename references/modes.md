@@ -24,6 +24,7 @@ Defaults:
 - schema: `scripts/schemas/review.json`
 - settings: `scripts/settings/review.json`
 - model: `opus`
+- effort: `max`
 - turns: `100`
 - budget: `50`
 
@@ -50,6 +51,7 @@ Defaults:
 - schema: `scripts/schemas/adversarial_review.json`
 - settings: `scripts/settings/review.json`
 - model: `opus`
+- effort: `max`
 - turns: `100`
 - budget: `50`
 
@@ -77,5 +79,6 @@ Defaults:
 - schema: `scripts/schemas/implementation_plan.json`
 - settings: `scripts/settings/plan.json`
 - model: `opus`
+- effort: `max`
 - turns: `100`
 - budget: `50`

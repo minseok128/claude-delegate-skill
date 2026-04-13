@@ -124,6 +124,8 @@ def doctor_command(args: argparse.Namespace) -> int:
         'Return exactly {"ok": true}.',
         "--model",
         args.model,
+        "--effort",
+        args.effort,
         "--output-format",
         "json",
         "--json-schema",
@@ -191,6 +193,8 @@ def run_command(args: argparse.Namespace) -> int:
         prompt_text,
         "--model",
         args.model,
+        "--effort",
+        args.effort,
         "--output-format",
         "json",
         "--json-schema",
@@ -282,7 +286,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     doctor = subparsers.add_parser("doctor", help="Verify the local Claude CLI is usable.")
     doctor.add_argument("--skip-smoke", action="store_true", help="Skip the JSON smoke test.")
-    doctor.add_argument("--model", default="sonnet", help="Claude model for the smoke test.")
+    doctor.add_argument("--model", default="opus", help="Claude model for the smoke test.")
+    doctor.add_argument(
+        "--effort",
+        default="max",
+        choices=["low", "medium", "high", "max"],
+        help="Claude effort level for the smoke test.",
+    )
     doctor.add_argument("--max-turns", type=int, default=20, help="Smoke test max turns.")
     doctor.add_argument(
         "--max-budget-usd",
@@ -302,7 +312,13 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--prompt-file", required=True, help="Prompt file to send to Claude.")
     run.add_argument("--schema", help="Override schema path.")
     run.add_argument("--settings", help="Override settings path.")
-    run.add_argument("--model", default="sonnet", help="Claude model name.")
+    run.add_argument("--model", default="opus", help="Claude model name.")
+    run.add_argument(
+        "--effort",
+        default="max",
+        choices=["low", "medium", "high", "max"],
+        help="Claude effort level.",
+    )
     run.add_argument("--max-turns", type=int, help="Override maximum turns.")
     run.add_argument("--max-budget-usd", type=float, help="Override budget cap in USD.")
     run.add_argument(
