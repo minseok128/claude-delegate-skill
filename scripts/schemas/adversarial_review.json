@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "summary": {
+      "type": "string"
+    },
+    "assumptions_under_test": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "breakage_scenarios": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "disagreement_points": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommended_next_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    }
+  },
+  "required": [
+    "summary",
+    "assumptions_under_test",
+    "breakage_scenarios",
+    "disagreement_points",
+    "recommended_next_steps",
+    "confidence"
+  ]
+}
