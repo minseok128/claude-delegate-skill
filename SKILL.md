@@ -1,17 +1,17 @@
 ---
 name: claude-delegate-skill
-description: Delegate a bounded task to the local Claude Code CLI when the user explicitly asks for Claude, wants a second opinion, requests adversarial review, or asks for an alternative implementation plan. Use for repo-local structured review via JSON output. Do not use for ordinary coding tasks, simple edits, or when Codex can complete the task directly.
+description: Spawn a fresh subagent that performs exactly one bounded Claude Code CLI delegation and returns a concise report. Use when the user explicitly asks for Claude, wants a second opinion, requests adversarial review, asks for an alternative implementation plan, or orchestrates a multi-reviewer fan-out with one slot powered by Claude. The orchestrator must not call `claude_bridge.py` from the main thread — always delegate the run to a subagent that follows this skill. Not for ordinary edits or tasks Codex can complete directly.
 ---
 
 # Claude Delegate Skill
 
-Use this skill only as a bounded specialist lane. Keep Codex as the primary executor and verifier.
+You are a subagent spawned by the orchestrator (Codex main) to run exactly one Claude delegation — a `review`, `adversarial-review`, or `implementation-plan`. Complete the delegation, return a concise report to the orchestrator, and stop. Your scope is this single call; the orchestrator remains the primary executor and verifier.
 
 ## Expected Runtime
 
 A single `claude_bridge.py run` invocation routinely takes **several minutes**, **5+ minutes is normal**, and **runs of up to 15 minutes are possible** for `adversarial-review` or `implementation-plan` over a non-trivial diff. This is expected — Claude is doing multi-turn reasoning and tool use against the repo.
 
-When invoking this skill:
+When running `claude_bridge.py`:
 
 - **Wait calmly.** Do not assume the call is hung just because it has not returned in 30–60 seconds. There is no progress output until the run finishes.
 - **Set a generous Bash timeout.** When you call `./scripts/claude_bridge.py run` from a Bash tool, pass an explicit timeout of **at least 900000 ms (15 minutes)**. The default 2-minute timeout will almost always cut a real run short. If your harness caps Bash at 10 minutes, run the bridge in the background instead of waiting inline.
@@ -32,10 +32,10 @@ When invoking this skill:
    - default budgets and turn limits are already generous; only override when the task clearly needs more or less
    - **Bash timeout ≥ 900000 ms (15 min).** Expect the call to run for minutes; see "Expected Runtime" above.
 6. Read the output JSON file and treat it as advisory input, not as final truth.
-7. Report back in this order:
+7. Report back to the orchestrator in this order:
    - one-paragraph summary
    - key findings or risks
-   - Codex's recommended next action
+   - recommended next action for the orchestrator
 
 ## Operating Rules
 
@@ -43,7 +43,7 @@ When invoking this skill:
 - Keep the context bundle small. Prefer target files, current diff, failing tests, and a short repository note over whole-file dumps.
 - Keep Claude read-only by default. Use `plan` permission mode, `--no-session-persistence`, and restricted tools unless the user explicitly requests a different contract.
 - Keep repository-specific build, test, and policy rules in `AGENTS.md`. Summarize only the parts Claude needs inside the prompt file.
-- Reject automatic escalation. If Claude suggests file edits, inspect the suggestion and apply changes from Codex instead of delegating writes.
+- Reject automatic escalation. If Claude suggests file edits, include them in your report; the orchestrator applies writes, not you.
 - Re-run `doctor` after authentication errors, CLI flag errors, or malformed JSON output.
 
 ## Prompt Construction
@@ -61,7 +61,7 @@ Do not include hidden conclusions like "the bug is in X" unless the user already
 ## Output Handling
 
 - `claude_bridge.py run` writes the normalized structured output to the `--output` path.
-- On success, read that file and synthesize the result for the user.
+- On success, read that file and synthesize the result for the orchestrator.
 - On failure, inspect the wrapper stderr/stdout summary first, then retry with:
   - tighter context
   - a larger `--max-turns`

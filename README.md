@@ -1,10 +1,18 @@
 # claude-delegate-skill
 
-A bounded "specialist lane" skill that delegates a single task to the local Claude Code CLI and returns schema-validated JSON.
+A bounded "specialist lane" skill. The orchestrator (Codex main) **spawns a fresh subagent**, and that subagent runs a single `claude_bridge.py` call against the local Claude Code CLI, returning schema-validated JSON.
 
 Three modes: `review`, `adversarial-review`, `implementation-plan`.
 
-Use it when you want a second opinion, a red-team pass, or an alternative plan — not for ordinary edits.
+Use it when you want a second opinion, a red-team pass, or an alternative plan — not for ordinary edits. Always route through a subagent; do not call the bridge script from the main thread.
+
+## Composition
+
+The skill is designed to slot into multi-reviewer fan-outs. Example:
+
+> "Review this PR. Spawn 3 subagents for different angles; one should follow `$claude-delegate-skill` for a Claude-backed pass."
+
+Each subagent reads `SKILL.md`, performs one delegation, and reports back. Parallel spawns keep reviewer contexts isolated from each other and from the orchestrator.
 
 ## Setup
 
