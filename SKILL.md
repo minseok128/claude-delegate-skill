@@ -9,12 +9,12 @@ Use this skill only as a bounded specialist lane. Keep Codex as the primary exec
 
 ## Expected Runtime
 
-A single `claude_bridge.py run` invocation routinely takes **several minutes**, and **5+ minutes is normal** for `adversarial-review` or `implementation-plan` over a non-trivial diff. This is expected — Claude is doing multi-turn reasoning and tool use against the repo.
+A single `claude_bridge.py run` invocation routinely takes **several minutes**, **5+ minutes is normal**, and **runs of up to 15 minutes are possible** for `adversarial-review` or `implementation-plan` over a non-trivial diff. This is expected — Claude is doing multi-turn reasoning and tool use against the repo.
 
 When invoking this skill:
 
 - **Wait calmly.** Do not assume the call is hung just because it has not returned in 30–60 seconds. There is no progress output until the run finishes.
-- **Set a generous Bash timeout.** When you call `./scripts/claude_bridge.py run` from a Bash tool, pass an explicit timeout of **at least 600000 ms (10 minutes)**. The default 2-minute timeout will almost always cut a real run short.
+- **Set a generous Bash timeout.** When you call `./scripts/claude_bridge.py run` from a Bash tool, pass an explicit timeout of **at least 900000 ms (15 minutes)**. The default 2-minute timeout will almost always cut a real run short. If your harness caps Bash at 10 minutes, run the bridge in the background instead of waiting inline.
 - **Do not kill and retry on a hunch.** If the run is still going, it is still working. Only abort if you have concrete evidence of a stuck process (e.g., zero CPU for minutes, or a known auth/CLI failure visible in another channel).
 - **Run `doctor.sh` only when there is a real signal of trouble** (auth error, malformed JSON, CLI flag error). Do not pre-emptively re-run it because the main call "feels slow."
 
@@ -30,7 +30,7 @@ When invoking this skill:
    - the matching schema from `./scripts/schemas/`
    - `--session ephemeral` unless the user explicitly asks to keep a named Claude session
    - default budgets and turn limits are already generous; only override when the task clearly needs more or less
-   - **Bash timeout ≥ 600000 ms.** Expect the call to run for minutes; see "Expected Runtime" above.
+   - **Bash timeout ≥ 900000 ms (15 min).** Expect the call to run for minutes; see "Expected Runtime" above.
 6. Read the output JSON file and treat it as advisory input, not as final truth.
 7. Report back in this order:
    - one-paragraph summary

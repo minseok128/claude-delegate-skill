@@ -1,6 +1,6 @@
 interface:
   display_name: "Claude Delegate"
-  short_description: "Bounded local Claude second opinions (long-running; expect several minutes per call)"
-  default_prompt: "Use $claude-delegate to get a bounded Claude review or alternative implementation plan for the current task. A single run typically takes several minutes (5+ minutes is normal); wait calmly and use a Bash timeout of at least 10 minutes."
+  short_description: "Bounded local Claude second opinions (long-running; several minutes per call, up to 15 min)"
+  default_prompt: "Use $claude-delegate to get a bounded Claude review or alternative implementation plan for the current task. A single run typically takes several minutes (5+ minutes is normal, up to 15 minutes is possible); wait calmly and use a Bash timeout of at least 15 minutes."
 policy:
   allow_implicit_invocation: false

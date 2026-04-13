@@ -18,4 +18,4 @@ Use it when you want a second opinion, a red-team pass, or an alternative plan â
 - Entry point: [`SKILL.md`](./SKILL.md)
 - Wrapper: [`scripts/claude_bridge.py`](./scripts/claude_bridge.py) (`run` / `doctor` subcommands)
 
-A single run typically takes several minutes (5+ min is normal). When invoking via Bash, use a timeout of at least 10 minutes.
+A single run typically takes several minutes (5+ min is normal, up to 15 min is possible). When invoking via Bash, use a timeout of at least 15 minutes.
